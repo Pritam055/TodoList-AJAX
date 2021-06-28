@@ -1,0 +1,128 @@
+<script>
+
+$(document).ready(function(){
+    console.log("ajax loaded");
+    const tbody = document.getElementById("tbody-id");
+
+    $("#btnSave").on('click', function(){
+
+        // get values
+        let t = $('#title-id').val();
+        let desc = $('#description-id').val();
+        let comp = $('#complete-id').prop('checked');
+        let csrf = $('input[name=csrfmiddlewaretoken]').val();
+        let  tid = $('#todo-id').val();
+        let mydata = {
+            title: t,
+            description: desc,
+            complete:comp,
+            csrfmiddlewaretoken: csrf,
+            tid: tid
+        }
+        console.log(t,desc, comp, csrf);
+        $.ajax({
+            type: 'post',
+            url: '',
+            data: mydata,
+            success: function(response){
+                if(response.status=='success'){
+                    let output = "";
+                    console.log(response.status);
+                    todos = response.todo_list;
+
+                    todos.forEach((todo) => {
+                        if(todo.complete){
+                        output+=`<tr>
+                                    <td><s><i>${todo.title}</i></s></td>
+                                    <td><s><i>${todo.description}</i></s></td>
+                                    <td><input type="checkbox" name="complete" id="complete-id" checked ></td>
+                                    <td>
+                                        <input type="button" class="btn-edit" data-tid="${todo.id}" value="Edit">
+                                        <input type="button" class="btn-del" data-tid="${todo.id}"  value="delete">
+                                    </td>
+                                </tr>
+                                `;
+                              
+                                
+                        }else{
+                            output+=`<tr>
+                                <td>${todo.title} </td>
+                                <td> ${todo.description} </td>
+                                <td><input type="checkbox" name="complete" id="complete-id" ></td>
+                                <td>
+                                    <input type="button" class="btn-edit" data-tid="${todo.id}" value="Edit">
+                                    <input type="button" class="btn-del" data-tid="${todo.id}"  value="delete">
+                                </td>
+                            </tr>
+                            `;
+                        }
+                    });
+                    tbody.innerHTML = output;
+                    document.getElementById('form-id').reset();
+                }else if(response.status=='fail'){
+                    console.log(response.status);
+                }else{
+                    pass
+                }
+            },
+            error: function(err){
+                console.log("Error: "+err);
+            }
+        });
+    });
+
+    // Delete data
+    $("tbody").on('click', '.btn-del', function(){
+        let tid = $(this).attr("data-tid");
+        let csrf = $('input[name=csrfmiddlewaretoken]').val();
+        let mydata = {
+            tid: tid,
+            csrfmiddlewaretoken: csrf
+        };
+        let mythis = this;
+        $.ajax({
+            type: 'post',
+            url: '/delete/',
+            data: mydata,
+            success: function(response){
+                if(response.status=='success'){
+                    console.log("delete success");
+                    // console.log(mythis.parentElement.parentElement );
+                    // mythis.parentElement.parentElement.style.display = 'none';
+                    $(mythis).closest('tr').fadeOut();
+                } else if(response.status=="fail"){
+                    console.log("delete failed");
+                }
+            },
+            error: function(err){
+                console.log("ERror: ", err);
+            }
+        })
+    });
+
+    // Edit data
+    $('tbody').on('click', '.btn-edit', function(){
+        // get values
+        let tid = $(this).attr("data-tid"); 
+        let mydata = { tid: tid };  
+        $.ajax({
+            method: 'GET',
+            url: '/edit/',
+            data: mydata,
+            success: function(response){ 
+                $('#title-id').val(response.title);
+                $('#description-id').val(response.description);
+                $('#complete-id').prop('checked', response.complete);
+                $("#todo-id").val(response.id);
+            },
+            error: function(err){
+                console.log("eRror: ", err);
+            }
+        });
+
+    });
+
+
+})
+
+</script>

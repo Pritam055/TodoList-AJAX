@@ -1,0 +1,107 @@
+ 
+
+body{
+    background-color: rgb(248, 238, 240);
+}
+.container{ 
+    width: 80vw;
+    margin: auto;
+}
+.header-bar {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(218, 140, 153);
+    width: 100%;
+    border-radius: 10px;
+    color:wh/ite;
+} 
+.row {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* align-items: center; */
+}
+
+.row-h1{
+    background-color: rgb(235, 191, 198);
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.form-div { 
+    /* border: 1px solid rgb(107, 107, 107); */
+    border-radius: 30px;
+    /* padding: 10px; */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /* justify-content: center;
+    align-items: center; */
+    
+}
+
+
+.table-div{
+    width: 50%;
+    /* border: 1px solid rgb(107, 107, 107); */
+    border-radius: 30px;
+    text-align: center;
+    /* padding:10px; */
+    display: flex;
+    flex-direction: column; 
+    /* align-items: center; */
+    flex-wrap: wrap;
+}
+
+.tdiv{
+    margin: auto;
+}
+td, th {
+    border: 1px solid rgb(168, 168, 168);
+    padding: 8px;
+}
+
+input[type="button"]{
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* form */
+label{
+    display: block;
+}
+
+input[type="text"],
+textarea{
+    width: 90%;
+    border: 1px solid  rgb(235, 191, 198);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.btn-edit{
+    color: blue;
+}
+.btn-del{
+    color:red;
+}
+#btnSave:hover{
+    background-color: rgb(0, 163, 0);
+    color: white;
+    border:1px solid rgb(0, 163, 0);
+}
+.btn-del:hover{
+    background-color: red;
+    color: white;
+    border: 1px solid red;
+}
+.btn-edit:hover{
+    background-color: blue;
+    color: white;
+    border:1px solid blue;
+}

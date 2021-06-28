@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo (ajax)</title> 
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-bar">
+            <h1>Todo List (Ajax)</h1>
+        </div>
+        <div class="content">
+
+            <div class="row">
+                <div class="form-div">
+                    <h1 class="row-h1">Todo Form</h1>
+                    <form method="post" id="form-id">
+                        <input type="hidden" id="todo-id">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <input type="button" id="btnSave" value="Submit">
+                    </form>
+                </div>
+                <div class="table-div"> 
+                    <h1 class="row-h1">Todo Data</h1>
+                   <div class="tdiv">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Title</td>
+                                <td>Description</td>
+                                <td>Completed</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tbody-id">
+                            {% for todo in todo_list %}
+                                <tr>
+                                    {% if todo.complete %}
+                                        <td><s><i>{{todo.title}}</i></s></td>
+                                        <td><s><i>{{todo.description}}</i></s></td>
+                                        <td><input type="checkbox" name="complete" id="complete-id" checked ></td>
+                                    {% else %}
+                                        <td>{{todo.title}}</td>
+                                        <td>{{todo.description}}</td>
+                                        <td><input type="checkbox" name="complete" id="complete-id"></td>
+                                    {% endif %} 
+                                    
+                                    <td>
+                                        <input type="button" class="btn-edit" data-tid="{{todo.id}}" value="Edit">
+                                        <input type="button" class="btn-del" data-tid="{{todo.id}}" value="Delete">
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+
+    {% include 'myapp/ajax.html' %}
+</body>
+
+</html>
